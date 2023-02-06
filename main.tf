@@ -20,7 +20,7 @@ resource "tfe_workspace" "this_ws" {
   tag_names                 = var.workspace_tags
   terraform_version         = (var.workspace_terraform_version == "latest" ? null : var.workspace_terraform_version)
   working_directory         = (var.workspace_vcs_directory == "root_directory" ? null : var.workspace_vcs_directory)
-  queue_all_runs            = true
+  queue_all_runs            = var.queue_all_runs
   auto_apply                = var.workspace_auto_apply
   assessments_enabled       = var.assessments_enabled
   project_id                = var.create_project ? tfe_project.project[0].id : data.tfe_organization.this_org.default_project_id

@@ -112,6 +112,12 @@ variable "workspace_agents" {
   default     = false
 }
 
+variable "queue_all_runs" {
+  type = bool
+  description = "queue all runs"
+  default = true
+}
+
 variable "workspace_auto_apply" {
   type        = string
   description = "(Optional)  Setting if the workspace should automatically apply changes when a plan succeeds."
