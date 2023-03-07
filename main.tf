@@ -27,7 +27,7 @@ resource "tfe_workspace" "this_ws" {
   agent_pool_id             = var.workspace_agents ? data.tfe_agent_pool.this_pool[0].id : null
   execution_mode            = var.workspace_agents ? "agent" : var.execution_mode
   remote_state_consumer_ids = var.remote_state ? var.remote_state_consumers : null
-  file_triggers_enabled = var.tags_regex != null ? false : true
+  file_triggers_enabled = var.tags_regex != null ? false : false
 
   dynamic "vcs_repo" {
     for_each = lookup(var.vcs_repo, "identifier", null) == null ? [] : [var.vcs_repo]
