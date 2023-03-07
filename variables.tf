@@ -42,6 +42,12 @@ variable "branch" {
   type        = string
 }
 
+variable "file_triggers_enabled" {
+  description = "file_triggers_enabled"
+  default     = true
+  type        = bool
+}
+
 variable "tags_regex" {
   description = "(Optional) -  regex git tags"
   default     = null
