@@ -36,6 +36,7 @@ resource "tfe_workspace" "this_ws" {
       branch             = lookup(vcs_repo.value, "branch", null)
       ingress_submodules = lookup(vcs_repo.value, "ingress_submodules", null)
       oauth_token_id     = lookup(vcs_repo.value, "oauth_token_id", null)
+      tags_regex         = lookup(vcs_repo.value, "tags_regex", null)
     }
   }
   lifecycle {

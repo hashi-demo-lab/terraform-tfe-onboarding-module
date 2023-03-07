@@ -113,9 +113,9 @@ variable "workspace_agents" {
 }
 
 variable "queue_all_runs" {
-  type = bool
+  type        = bool
   description = "queue all runs"
-  default = true
+  default     = true
 }
 
 variable "workspace_auto_apply" {
