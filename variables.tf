@@ -36,6 +36,18 @@ variable "vcs_repo" {
   type        = map(string)
 }
 
+variable "branch" {
+  description = "(Optional) - VCS Repo branch"
+  default     = null
+  type        = string
+}
+
+variable "tags_regex" {
+  description = "(Optional) -  regex git tags"
+  default     = null
+  type        = string
+}
+
 variable "workspace_vcs_directory" {
   description = "Working directory to use in repo"
   type        = string
