@@ -11,8 +11,8 @@ data "tfe_agent_pool" "this_pool" {
 }
 
 data "tfe_project" "this_project" {
-  count = var.create_project ? 0 : 1
-  name =  var.project_name
+  count        = var.create_project ? 0 : 1
+  name         = var.project_name
   organization = data.tfe_organization.this_org.name
 }
 
@@ -29,7 +29,7 @@ resource "tfe_workspace" "this_ws" {
   queue_all_runs            = var.queue_all_runs
   auto_apply                = var.workspace_auto_apply
   assessments_enabled       = var.assessments_enabled
-  project_id                = var.create_project ? tfe_project.project[0].id : try(data.tfe_project.this_project.id, data.tfe_organization.this_org.default_project_id)
+  project_id                = var.create_project ? tfe_project.project[0].id : try(data.tfe_project.this_project[0].id, data.tfe_organization.this_org.default_project_id)
   agent_pool_id             = var.workspace_agents ? data.tfe_agent_pool.this_pool[0].id : null
   execution_mode            = var.workspace_agents ? "agent" : var.execution_mode
   remote_state_consumer_ids = var.remote_state ? var.remote_state_consumers : null
