@@ -1,19 +1,15 @@
-# Data lookups
-## Organization name
-data "tfe_organization" "this_org" {
-  name = var.organization
-}
+
 
 data "tfe_agent_pool" "this_pool" {
   count        = var.workspace_agents ? 1 : 0
   name         = var.agent_pool_name
-  organization = data.tfe_organization.this_org.name
+  organization = var.organization
 }
 
 data "tfe_project" "this_project" {
   count        = var.create_project ? 0 : 1
   name         = var.project_name
-  organization = data.tfe_organization.this_org.name
+  organization = var.organization
 }
 
 ###################################################
@@ -21,7 +17,7 @@ data "tfe_project" "this_project" {
 ## Workspace setup
 resource "tfe_workspace" "this_ws" {
   name                      = var.workspace_name
-  organization              = data.tfe_organization.this_org.name
+  organization              = var.organization
   description               = var.workspace_description
   tag_names                 = var.workspace_tags
   terraform_version         = (var.workspace_terraform_version == "latest" ? null : var.workspace_terraform_version)
@@ -66,7 +62,7 @@ resource "tfe_variable" "variables" {
 // Projects
 resource "tfe_project" "project" {
   count        = var.create_project ? 1 : 0
-  organization = data.tfe_organization.this_org.name
+  organization = var.organization
   name         = var.project_name
 }
 
