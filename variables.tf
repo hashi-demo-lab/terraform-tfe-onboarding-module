@@ -160,6 +160,11 @@ variable "remote_state_consumers" {
   default     = [""]
 }
 
+variable "default_project_id" {
+  type = string
+  default = "prj-HzZjvdXfEEUvfWno"
+}
+
 # variable "rbac" {
 #   type = bool
 #   description = "(Optional) Conditional that allows for RBAC policy to be created for the new workspaces"
