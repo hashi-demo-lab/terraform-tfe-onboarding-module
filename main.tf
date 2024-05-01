@@ -39,7 +39,7 @@ resource "tfe_workspace" "this_ws" {
       identifier         = lookup(vcs_repo.value, "identifier", null)
       branch             = lookup(vcs_repo.value, "branch", null)
       ingress_submodules = lookup(vcs_repo.value, "ingress_submodules", null)
-      oauth_token_id     = lookup(vcs_repo.value, "oauth_token_id", null)
+      oauth_token_id     = try(vcs_repo.oauth_token_id, var.oauth_token_id)
       tags_regex         = lookup(vcs_repo.value, "tags_regex", null)
       github_app_installation_id = lookup(vcs_repo.value, "github_app_installation_id", null)
     }
