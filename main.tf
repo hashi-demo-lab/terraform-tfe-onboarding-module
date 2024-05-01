@@ -28,7 +28,7 @@ resource "tfe_workspace" "this_ws" {
   assessments_enabled       = var.assessments_enabled
   project_id                = var.create_project ? tfe_project.project[0].id : try(var.project_id, data.tfe_project.this_project[0].id)
   agent_pool_id             = var.workspace_agents ? data.tfe_agent_pool.this_pool[0].id : null
-  execution_mode            = var.workspace_agents ? "agent" : var.execution_mode
+  #execution_mode            = var.workspace_agents ? "agent" : var.execution_mode
   remote_state_consumer_ids = var.remote_state ? var.remote_state_consumers : null
   file_triggers_enabled     = var.file_triggers_enabled
 
@@ -48,6 +48,13 @@ resource "tfe_workspace" "this_ws" {
     create_before_destroy = true
   }
 }
+
+resource "tfe_workspace_settings" "this_ws" {
+  workspace_id   = tfe_workspace.this_ws.id
+  agent_pool_id  = var.workspace_agents ? data.tfe_agent_pool.this_pool[0].id : null
+  execution_mode = var.workspace_agents ? "agent" : var.execution_mode
+}
+
 
 ## Variables
 resource "tfe_variable" "variables" {
