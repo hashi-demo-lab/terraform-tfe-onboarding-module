@@ -8,7 +8,7 @@ data "tfe_agent_pool" "this_pool" {
 
 data "tfe_project" "this_project" {
   # disable this data source if we are creating a project or if project_id is provided
-  count        = var.create_project || var.project_id ? 0 : 1
+  count        = var.create_project || var.project_id != null ? 0 : 1
   name         = var.project_name
   organization = var.organization
 }
