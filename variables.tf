@@ -160,9 +160,10 @@ variable "remote_state_consumers" {
   default     = [""]
 }
 
-variable "default_project_id" {
+# default = "prj-HzZjvdXfEEUvfWno"
+variable "project_id" {
   type = string
-  default = "prj-HzZjvdXfEEUvfWno"
+  default = null
 }
 
 # variable "rbac" {

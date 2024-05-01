@@ -7,7 +7,8 @@ data "tfe_agent_pool" "this_pool" {
 }
 
 data "tfe_project" "this_project" {
-  count        = var.create_project ? 0 : 1
+  # disable this data source if we are creating a project or if project_id is provided
+  count        = var.create_project || var.project_id ? 0 : 1
   name         = var.project_name
   organization = var.organization
 }
@@ -25,7 +26,7 @@ resource "tfe_workspace" "this_ws" {
   queue_all_runs            = var.queue_all_runs
   auto_apply                = var.workspace_auto_apply
   assessments_enabled       = var.assessments_enabled
-  project_id                = var.create_project ? tfe_project.project[0].id : try(data.tfe_project.this_project[0].id, var.default_project_id)
+  project_id                = var.create_project ? tfe_project.project[0].id : try(var.project_id, data.tfe_project.this_project[0].id)
   agent_pool_id             = var.workspace_agents ? data.tfe_agent_pool.this_pool[0].id : null
   execution_mode            = var.workspace_agents ? "agent" : var.execution_mode
   remote_state_consumer_ids = var.remote_state ? var.remote_state_consumers : null
@@ -66,73 +67,3 @@ resource "tfe_project" "project" {
   organization = var.organization
   name         = var.project_name
 }
-
-
-# RBAC
-## Teams
-### Workspace owner
-# resource "tfe_team" "this_owners" {
-#   name         = "${var.workspace_name}-owners"
-#   organization = data.tfe_organization.this_org.name
-# }
-
-# module "workspace_owner" {
-#   source = "./modules/rbac_user"
-
-#   organization     = data.tfe_organization.this_org.name
-#   workspace_id     = tfe_workspace.this_ws.id
-#   team_id          = tfe_team.this_owners.id
-#   user_email       = var.workspace_owner_email
-#   user_permissions = "admin"
-# }
-
-# ### Read access team
-# resource "tfe_team" "this_read" {
-#   name         = "${var.workspace_name}-read"
-#   organization = data.tfe_organization.this_org.name
-# }
-
-# module "workspace_read" {
-#   source = "./modules/rbac_user"
-
-#   for_each         = toset(var.workspace_read_access_emails)
-#   organization     = data.tfe_organization.this_org.name
-#   workspace_id     = tfe_workspace.this_ws.id
-#   team_id          = tfe_team.this_read.id
-#   user_email       = each.key
-#   user_permissions = "read"
-# }
-
-# ### Write access team
-# resource "tfe_team" "this_write" {
-#   name         = "${var.workspace_name}-write"
-#   organization = data.tfe_organization.this_org.name
-# }
-
-# module "workspace_write" {
-#   source = "./modules/rbac_user"
-
-#   for_each         = toset(var.workspace_write_access_emails)
-#   organization     = data.tfe_organization.this_org.name
-#   workspace_id     = tfe_workspace.this_ws.id
-#   team_id          = tfe_team.this_write.id
-#   user_email       = each.key
-#   user_permissions = "write"
-# }
-
-# ### Plan access team
-# resource "tfe_team" "this_plan" {
-#   name         = "${var.workspace_name}-plan"
-#   organization = data.tfe_organization.this_org.name
-# }
-
-# module "workspace_plan" {
-#   source = "./modules/rbac_user"
-
-#   for_each         = toset(var.workspace_plan_access_emails)
-#   organization     = data.tfe_organization.this_org.name
-#   workspace_id     = tfe_workspace.this_ws.id
-#   team_id          = tfe_team.this_plan.id
-#   user_email       = each.key
-#   user_permissions = "plan"
-# }
