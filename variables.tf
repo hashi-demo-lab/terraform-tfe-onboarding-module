@@ -170,9 +170,3 @@ variable "oauth_token_id" {
   type = string
   default = null
 }
-
-# variable "rbac" {
-#   type = bool
-#   description = "(Optional) Conditional that allows for RBAC policy to be created for the new workspaces"
-#   default = true
-# }
