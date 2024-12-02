@@ -27,7 +27,7 @@ resource "tfe_workspace" "this_ws" {
   auto_apply                = var.workspace_auto_apply
   assessments_enabled       = var.assessments_enabled
   project_id                = var.create_project ? tfe_project.project[0].id : try(var.project_id, data.tfe_project.this_project[0].id)
-  agent_pool_id             = var.workspace_agents ? data.tfe_agent_pool.this_pool[0].id : null
+  #deprecated# agent_pool_id             = var.workspace_agents ? data.tfe_agent_pool.this_pool[0].id : null
   remote_state_consumer_ids = var.remote_state ? var.remote_state_consumers : null
   file_triggers_enabled     = var.file_triggers_enabled
 
